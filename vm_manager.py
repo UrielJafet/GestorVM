@@ -85,9 +85,9 @@ class VMManager:
             )
 
             self.log("[INFO] === FASE 8: USUARIOS Y GRUB ===")
-            self.sudo.ejecutar_chroot(temp, f'printf "root:{password}\\n" | chpasswd')
-            self.sudo.ejecutar_chroot(temp, f'useradd -m {usuario}')
-            self.sudo.ejecutar_chroot(temp, f'printf "{usuario}:{password}\\n" | chpasswd')
+            self.sudo.ejecutar_chroot(temp, f"echo 'root:{password}' | chpasswd")
+            self.sudo.ejecutar_chroot(temp, f'useradd -m -s /bin/bash {usuario}')
+            self.sudo.ejecutar_chroot(temp, f"echo '{usuario}:{password}' | chpasswd")
             self.sudo.ejecutar_chroot(temp, 'update-grub')
             self.sudo.ejecutar_chroot(temp,
                 "printf '(hd0) /dev/xvda1p1\\n' > /boot/grub/device.map"
